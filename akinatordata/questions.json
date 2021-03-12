@@ -1,0 +1,13 @@
+{
+    "il":"Is this person in %VAR%?",
+    "gender":"Does this person identify as %VAR%?",
+    "hair":"Does this person have %VAR% hair?",
+    "ethnicity":"Is this person %VAR%?",
+    "goestokls":"Does this person go to KLS?",
+    "hasgonetokls":"Has this person ever gone to KLS?",
+    "enjoy/unique": {
+        "1":"Is this person %VAR%?",
+        "2":"Does this person %VAR%?",
+        "3":"Does %VAR% define this person?"
+    }
+}

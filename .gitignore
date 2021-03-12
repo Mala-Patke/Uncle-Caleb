@@ -1,0 +1,5 @@
+/data
+/node_modules
+akinator.json
+config.json
+package-lock.json
