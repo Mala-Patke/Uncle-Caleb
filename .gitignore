@@ -1,5 +1,6 @@
 /data
 /node_modules
+/.vscode
 akinator.json
 config.json
 package-lock.json
