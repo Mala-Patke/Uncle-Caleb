@@ -15,6 +15,7 @@ for (const file of commandFiles) {
 client.pingknk = true;
 
 client.once('ready', async() => {
+    client.nickname = null;
     client.user.setPresence({ activity: {name: 'Spotify', type:'LISTENING'}, status:'dnd'})
     .then(console.log("Uncle Caleb's here."))
     .catch(console.error);
@@ -41,16 +42,28 @@ client.on('message', async message => {
 });
 
 client.on('message', message => {
+    if(message.author.id === client.user.id) return;
+    if(message.content.includes('||')) return;
+    let splitmessage = message.content.split(" ")
     if(message.channel.id === "690801248143671299" && message.author.id === "674140360079048714" && client.pingknk) return message.channel.send(`<@636800795529969697>`).then(m => m.delete())
     if(message.channel.id === '766897690952728626') return message.react(`796615553003028490`);
-    /**
-    let args = message.content.split(/ +/);
-    for(let i = 0; i < args.length-1; i++){
-        if(args[i].toLowerCase() === "i" && args[i+1].toLowerCase() === "lost"){
-            message.channel.send("It's been said");
-        }
+
+    if(message.content.endsWith("This can be bypassed if you're an admin (either Manage Server or Administrator) or you're alone with the bot."))
+        return message.channel.send('To obtain the DJ role, run `;role DJ`. It won\'t ban you I swear.')
+
+    let dadex = message.content.match(/\bi['`]?( a)?m\b/gi);
+    if(dadex){
+        let daddedmessage = splitmessage.slice(splitmessage.findIndex(a => dadex.includes(a) || a === "am")+1).join(" ")
+        if(!daddedmessage.length) return;
+        message.channel.send(`Hi ${daddedmessage}, I'm Uncle Caleb!`)
     }
-    */
+});
+
+client.on('guildMemberUpdate', member => {
+    if(member.id === '499481332007698432' && member.nickname !== client.nickname){
+        client.guilds.cache.get('506672768792657933').members.cache.get(client.user.id).setNickname(member.nickname)
+        client.nickname = member.nickname;
+    }
 });
 
 client.on('messageReactionAdd', async(reaction, user) => {
@@ -104,9 +117,12 @@ client.on('messageDelete', async message => {
         try {
             await message.fetch();
         } catch(err) {
-            console.log(`Something went wrong: ${err}`);
+            return console.error(`Something went wrong: ${err}`);
         }
     }
+
+    if(message.content.endsWith("I'm Uncle Caleb!") && message.author.id === client.user.id) 
+        return message.channel.send(message.content)
 
     if(message.attachments.size) message.hasAttatchments = true;
     else message.hasAttatchments = false;
@@ -124,8 +140,8 @@ client.on('messageDelete', async message => {
 });
 
 client
-.on('rateLimit', err => console.error(err))
-.on('error', err => console.error(err))
-.on('warn', err => console.warn(err));
+.on('rateLimit', err => console.error(err + "RATELIMIT"))
+.on('error', err => console.error(err + "ERROR"))
+.on('warn', err => console.warn(err + "WARN"));
 
 client.login(config.token);

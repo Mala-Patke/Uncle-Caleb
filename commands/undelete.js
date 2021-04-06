@@ -6,7 +6,7 @@ function sendUD(deleted){
         .setAuthor(deleted.author.username, deleted.author.avatarURL())
         .setDescription(deleted.content)
         .setTimestamp(deleted.createdTimestamp);
-    if(!!deleted.attachments.size){
+    if(deleted.attachments.size){
         embed.setImage(deleted.attachments.first().proxyURL)
     }
     deleted.channel.send(embed);
@@ -39,7 +39,7 @@ module.exports = {
         } else {
             let int = parseInt(args[0]);
             if(int > deleted.length) return message.channel.send(`Could not find deleted Message with index ${int}`);
-            sendUD(deleted[int]);
+            sendUD(deleted[int+1]);
         }
     }
 }

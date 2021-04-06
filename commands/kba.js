@@ -34,7 +34,7 @@ module.exports = {
         shuffle(members);
         let threeusers = members.slice(0,3);
         let userstring = '';
-        for(let i in  threeusers){
+        for(let i in threeusers){
             userstring += `${parseInt(i)+1}) ${threeusers[i]}\n`
         }
         const embed = new MessageEmbed()
@@ -68,10 +68,11 @@ module.exports = {
                         break;
                     }
                 }
-                collector.stop();
+                collector.stop('deez nuts');
             }
         })
-        collector.on('end', () => {
+        collector.on('end', (a, reason) => {
+            if(reason !== 'deez nuts') return message.channel.send('Timed out');
             console.log('stopped');
             console.log(responses);
             let data = {

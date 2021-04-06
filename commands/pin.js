@@ -10,8 +10,8 @@ module.exports = {
      */
     async execute(message, args){
         if(!args.length) return message.delete();
-        let messages = await message.channel.messages.fetch({ limit: 50 });
-        if(!messages.has(args[0])) return message.delete();
-        messages.get(args[0]).pin({ reason: 'Pog Message' });
+        let messages = await message.channel.messages.fetch(args[0]);
+        if(!messages) return message.delete();
+        messages.pin({ reason: 'Pog Message' });
     }
-} 
+}
