@@ -16,10 +16,17 @@ client.pingknk = true;
 
 client.once('ready', async() => {
     client.nickname = null;
-    client.user.setPresence({ activity: {name: 'Spotify', type:'LISTENING'}, status:'dnd'})
-    .then(console.log("Uncle Caleb's here."))
-    .catch(console.error);
+    await client.user.setPresence({ activity: {name: 'Spotify', type:'LISTENING'}, status:'dnd' })
+    console.clear();
+    console.log('Uncle Caleb\'s here!');
 });
+
+let coolpeoplearray = [
+    "674140360079048714",
+    "294625075934527495",
+    "748365310171807775",
+    "430583627173330955"
+]
 
 client.on('message', async message => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
@@ -32,7 +39,7 @@ client.on('message', async message => {
     const command = client.commands.get(commandName);
     
     if (command.guildOnly && message.channel.type !== 'text') return message.reply('I can\'t execute that command inside DMs!');
-    if (command.ownerOnly && message.author.id !== '674140360079048714') return message.delete();
+    if (command.ownerOnly && !coolpeoplearray.includes(message.author.id)) return message.delete();
     try {
         command.execute(message, args);
     } catch (error){
@@ -51,7 +58,7 @@ client.on('message', message => {
     if(message.content.endsWith("This can be bypassed if you're an admin (either Manage Server or Administrator) or you're alone with the bot."))
         return message.channel.send('To obtain the DJ role, run `;role DJ`. It won\'t ban you I swear.')
 
-    let dadex = message.content.match(/\bi['`]?( a)?m\b/gi);
+    let dadex = message.content.replace('_', ' ').match(/\b[i1]['`]?( [a4])?m\b/gi);
     if(dadex){
         let daddedmessage = splitmessage.slice(splitmessage.findIndex(a => dadex.includes(a) || a === "am")+1).join(" ")
         if(!daddedmessage.length) return;
@@ -71,7 +78,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
         try {
             await reaction.fetch()
         }catch(error) {
-            console.log('Something went wrong: ', error);
+            console.log('Something went wrong with fetching a reaction: ', error);
             return;
         }
     }
@@ -80,7 +87,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
         try {
             await reaction.message.fetch()
         } catch(error) {
-            console.log('Something went wrong: ', error);
+            console.log('Something went wrong with fetching a reaction\'s message', error);
             return;
         }
     }
@@ -117,7 +124,7 @@ client.on('messageDelete', async message => {
         try {
             await message.fetch();
         } catch(err) {
-            return console.error(`Something went wrong: ${err}`);
+            return console.error(`Something went wrong with fetching a deleted message: ${err}`);
         }
     }
 

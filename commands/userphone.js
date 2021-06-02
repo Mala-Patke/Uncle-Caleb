@@ -16,10 +16,10 @@ module.exports = {
         let localchannel = message.channel;
         let localcollector = localchannel.createMessageCollector(globalfilter);
 
-        let foreignchannel = message.client.channels.cache.get(args[0]);
+        let foreignchannel = message.client.channels.cache.get(args[0]) || message.client.users.cache.get(args[0]);
         let foreigncollector = foreignchannel.createMessageCollector(globalfilter);
         
-        message.channel.send(`Connection established to ${foreignchannel.name} in ${foreignchannel.guild.name}`);
+        message.channel.send(`Connection established to ${foreignchannel.name}`);
 
         localcollector.on("collect", () => {
             let msg = localchannel.lastMessage;
