@@ -60,6 +60,7 @@ client.on('message', message => {
 
     let dadex = message.content.replace('_', ' ').match(/\b[i1]['`]?( [a4])?m\b/gi);
     if(dadex){
+        if (Math.floor(Math.random() * 250) == 12) return;
         let daddedmessage = splitmessage.slice(splitmessage.findIndex(a => dadex.includes(a) || a === "am")+1).join(" ")
         if(!daddedmessage.length) return;
         message.channel.send(`Hi ${daddedmessage}, I'm Uncle Caleb!`)

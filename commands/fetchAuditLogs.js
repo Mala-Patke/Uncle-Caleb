@@ -11,12 +11,12 @@ function mapper(entry){
             break;
         case 'CHANNEL':line+=`#${entry.target.name} `;
             break;
-        case 'MESSAGE':line+=`${entry.target.id} in #${entry.target.channel.name}`
+        case 'MESSAGE':line+=`${entry.target.id} in #${entry.target.channel?.name}`
             break;
         default: line += 'something '
     }
 
-    if(entry.changes && entry.changes.length) line += `which includes ${entry.changes.map(e => `"${e.key} ${JSON.stringify(e.new)}"`).join(', ')} `
+    if(entry.changes && entry.changes.length) line += `with properties ${entry.changes.map(e => `${e.key}: ${JSON.stringify(e.new)}`).join(', ')} `
 
     if(entry.reason) line += `because ${entry.reason} `
 
@@ -24,7 +24,7 @@ function mapper(entry){
 
     return line;
 }
- 
+
 module.exports = {
     name: 'fetchauditlogs',
     guildOnly: true,
